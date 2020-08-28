@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 void renderizar_linha_torre(int tam_disco, int linha, int tamTotal) {
     // exibindo espaços
     if (tam_disco == 0) putchar(' ');
@@ -16,7 +15,7 @@ void renderizar_linha_torre(int tam_disco, int linha, int tamTotal) {
     putchar(' ');
 }
 
-void exibe_torres() {
+void renderizar_torres() {
     int tamTotal = 4;
 
     int torre1[] = {0, 3, 5, 7}; 
