@@ -31,6 +31,13 @@ void liberar_torre(Torre* t) {
     free(t);
 }
 
+short esta_vazia(Torre* t) {
+    if (t->qte_discos == 0)
+        return 0;
+    else
+        return 1;
+}
+
 void push(Torre* t, short qte_discos) {
     Disco* nova = malloc(sizeof(Disco));
     nova->tamanho = qte_discos;
