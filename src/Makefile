@@ -1,2 +1,2 @@
-RenderizarTorres: RenderizarTorres.c
-	gcc main.c RenderizarTorres.c -o bin
+main: main.c
+	gcc main.c RenderizarTorres.c Torre.c -o RunGame
