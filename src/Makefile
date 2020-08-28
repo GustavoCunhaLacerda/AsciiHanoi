@@ -1,2 +1,2 @@
 RenderizarTorres: RenderizarTorres.c
-	gcc RenderizarTorres.c -o bin
+	gcc main.c RenderizarTorres.c -o bin

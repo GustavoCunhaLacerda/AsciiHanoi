@@ -2,7 +2,7 @@
 Torre de Hanoi feita em Ascii com C
 
 ## Objetivos
-- [ ] Implementação da renderização das torres.
+- [x] Implementação da renderização das torres.
 - [ ] Implementação das estruturas das pilhas das torres.
 - [ ] Implementação das mecânicas de jogo.
 - [ ] Implementação da interface de linha de comando (CLI).
