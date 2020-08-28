@@ -1,2 +1,2 @@
-void renderizar_torres(int tamTotal, int v_torre1[], int v_torre2[], int v_torre3[]);
+void renderizar_torres(short tamTotal, short v_torre1[], short v_torre2[], short v_torre3[]);
 
