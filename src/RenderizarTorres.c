@@ -4,13 +4,13 @@
 void renderizar_linha_torre(short tam_disco, short linha, short tamTotal) {
     // exibindo espaços
     if (tam_disco == 0) putchar(' ');
-    for (short espaco = 0; espaco < tamTotal - (1 + tam_disco/2); espaco++)
+    for (short espaco = 0; espaco < tamTotal - (1 + (tam_disco >> 1)); espaco++)
         putchar(' ');
     // exibindo simbolos
     for (short simbolo = 0; simbolo < tam_disco; simbolo++)
         putchar('*');
     // exibindo espaços
-    for (short espaco = 0; espaco < tamTotal - (1 + tam_disco/2); espaco++)
+    for (short espaco = 0; espaco < tamTotal - (1 + (tam_disco >> 1)); espaco++)
         putchar(' ');
 
     putchar(' ');

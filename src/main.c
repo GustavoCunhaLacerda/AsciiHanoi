@@ -1,15 +1,15 @@
 #include <stdio.h>
-#include "./RenderizarTorres.h"
-#include "./Torre.h"
+#include "../includes/RenderizarTorres.h"
+#include "../includes/Torre.h"
 
 int main () {
     printf("Torre de Hanoi\n");
 
-    short tamTotal = 2;
+    short tamTotal = 4;
 
     Torre* t1 = cria_torre();
     for (short i = tamTotal; i > 0; i--)
-        push(t1, (2*i)-1);
+        push(t1, (i << 1)-1);
     Torre* t2 = cria_torre();
     Torre* t3 = cria_torre();
 
