@@ -4,7 +4,7 @@
 // Tipos exportados
 struct torre
 {
-    short qte_discos;
+    short qteDiscos;
     Disco* topo;
 };
 
@@ -25,7 +25,7 @@ Torre* cria_torre()
 {
     Torre* t = malloc(sizeof(Torre));
     t->topo = NULL;
-    t->qte_discos = 0;
+    t->qteDiscos = 0;
     return t;
 } 
 
@@ -38,7 +38,7 @@ void libera_torre(Torre* t)
 // Verifica se a torre está vazia
 short esta_vazia(Torre* t)
 {
-    if (t->qte_discos == 0)
+    if (t->qteDiscos == 0)
         return 0;
     else
         return 1;
@@ -57,7 +57,7 @@ void push(Torre* t, Disco* d)
         d->prox = t->topo;
         t->topo = d;
     }
-    t->qte_discos += 1;
+    t->qteDiscos += 1;
 }
 
 // Retorna e remove o disco do topo da torre
@@ -66,7 +66,7 @@ Disco* pop(Torre* t)
     Disco* dt = t->topo;
     t->topo = dt->prox;
     dt->prox = NULL;
-    t->qte_discos -= 1;
+    t->qteDiscos -= 1;
 
     return dt;
 }
@@ -84,7 +84,7 @@ short* vetor_torre(Torre* t, short tamVetorFinal)
     Disco* d = t->topo;
     for (short i = 0; i < tamVetorFinal; i++)
     {
-        if(tamVetorFinal - i > t->qte_discos)
+        if(tamVetorFinal - i > t->qteDiscos)
             v_torre[i] = 0;
         else
         {
