@@ -1,6 +1,3 @@
-#ifdef TORRE_H
-#define TORRE_H
-
 // tipo exportados
 typedef struct disco Disco;
 typedef struct torre Torre;
@@ -41,5 +38,3 @@ Disco* cria_disco(short tam);
 
 // Libera disco
 void libera_disco(Disco* d);
-
-#endif
