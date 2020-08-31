@@ -47,8 +47,6 @@ short esta_vazia(Torre* t)
 // Insere disco no topo da torre
 void push(Torre* t, Disco* d)
 {
-    // Disco* nova = malloc(sizeof(Disco));
-    // nova->tamanho = qte_discos;
     if (t->topo == NULL)
     {
         d->prox = NULL;
