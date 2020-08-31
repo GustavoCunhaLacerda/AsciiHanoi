@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "../includes/TorreEDisco.h"
+#include "../includes/Torre.h"
 
 // Tipos exportados
 struct torre
