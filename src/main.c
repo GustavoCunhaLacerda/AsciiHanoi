@@ -7,11 +7,19 @@ int main () {
 
     short tamTotal = 4;
 
+    Disco* d1 = cria_disco(1);
+    Disco* d3 = cria_disco(3);
+    Disco* d5 = cria_disco(5);
+    Disco* d7 = cria_disco(7);
+
     Torre* t1 = cria_torre();
-    for (short i = tamTotal; i > 0; i--)
-        push(t1, (i << 1)-1);
     Torre* t2 = cria_torre();
     Torre* t3 = cria_torre();
+
+    push(t1, d7);
+    push(t1, d5);
+    push(t1, d3);
+    push(t1, d1);
 
     Torre* torres[] = {t1, t2, t3};
 
@@ -31,7 +39,11 @@ int main () {
     
 
 
-    liberar_torre(t1);
-    liberar_torre(t2);
-    liberar_torre(t3);
+    libera_torre(t1);
+    libera_torre(t2);
+    libera_torre(t3);
+    libera_disco(d1);
+    libera_disco(d3);
+    libera_disco(d5);
+    libera_disco(d7);
 }
