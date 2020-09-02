@@ -9,7 +9,7 @@ void renderizar_linha_torre(short tamDisco, short linha, short tamTotal) {
         putchar(' ');
     // exibindo simbolos
     for (short simbolo = 0; simbolo < tamDisco; simbolo++)
-        putchar('*');
+        printf("█");
     // exibindo espaços
     for (short espaco = 0; espaco < tamTotal - (1 + (tamDisco >> 1)); espaco++)
         putchar(' ');
