@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include "../includes/RenderizarTorres.h"
 #include "../includes/Torre.h"
 
