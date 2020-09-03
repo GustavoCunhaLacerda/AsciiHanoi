@@ -217,7 +217,7 @@ void game()
 
 
     //
-    // 
+    // Retorno ao menu principal
     //
     printf("Pressione [ENTER] para voltar para o menu inicial.");
     while ((getchar()) != '\n');
