@@ -39,9 +39,9 @@ void libera_torre(Torre* t)
 short esta_vazia(Torre* t)
 {
     if (t->qteDiscos == 0)
-        return 0;
-    else
         return 1;
+    else
+        return 0;
 }
 
 // Insere disco no topo da torre
@@ -71,10 +71,13 @@ Disco* pop(Torre* t)
     return dt;
 }
 
-// Retorna o topo da torre sem remover
-Disco* peek(Torre* t)
+// "Olha" o topo da torre sem remover
+short peek(Torre* t)
 {
-    return t->topo;
+    if (t->qteDiscos == 0)
+        return -1;
+    
+    return t->topo->tamanho;
 }
 
 // Retorna um vetor formatado para renderização da torre

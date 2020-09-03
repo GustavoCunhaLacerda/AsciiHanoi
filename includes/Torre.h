@@ -24,7 +24,7 @@ void push(Torre* t, Disco* disco);
 Disco* pop(Torre* t);
 
 // Retorna o topo da torre sem remover
-Disco* peek(Torre* t);
+short peek(Torre* t);
 
 // Retorna um vetor formatado para renderização da torre
 short* vetor_torre(Torre* t, short tamVetorFinal);
