@@ -97,7 +97,7 @@ char menu()
 
     // Scan da scolha do usuário
     char opcaoMenu = '\0';
-    while (!((int)opcaoMenu >= 48 && (int)opcaoMenu <= 52))
+    while (!((int)opcaoMenu >= 48 && (int)opcaoMenu <= 51))
     {
         printf("\nSelecione uma opção: ");
         opcaoMenu = getchar();
@@ -155,7 +155,7 @@ void game()
 
         // Scan da torre fonte do disco
         char fonteChar = '\0', destinoChar = '\0';
-        while (!((int)fonteChar >= 49 && (int)fonteChar <= 52))
+        while (!((int)fonteChar >= 49 && (int)fonteChar <= 51))
         {
             printf("Mover de [1-3]: ");
             fonteChar = getchar();
@@ -163,12 +163,14 @@ void game()
         }
 
         // Scan da torre destino do disco
-        while (!((int)destinoChar >= 49 && (int)destinoChar <= 52))
+        while (!((int)destinoChar >= 49 && (int)destinoChar <= 51))
         {
             printf("Para [1-3]: ");
             destinoChar = getchar();
             while ((getchar()) != '\n');
         }
+
+        fflush(stdin);
         
         // Conversão do número das torres fonte e destino de <char> para <short>
         short fonte = (int)fonteChar - 48, destino = (int)destinoChar - 48;
