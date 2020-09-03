@@ -2,7 +2,7 @@
 Torre de Hanoi feita em Ascii com C
 
 ## Informações e Como Rodar
-O jogo não utiliza nenhum lib externa.
+O jogo não utiliza nenhum lib externa.\
 Para jogar compile em um terminal linux com:
 ```
     make
@@ -12,7 +12,7 @@ Depois basta executar:
     ./AsciiHanoi
 ```
 
-Todos os testes foram feitos usando o Console do Ubuntu@20.04.
+Todos os testes foram feitos usando o Console do Ubuntu@20.04.\
 Não funciona em sistemas Windows.
 
 ## Objetivos
