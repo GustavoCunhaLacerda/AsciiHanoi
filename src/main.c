@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "../includes/RenderizarTorres.h"
 #include "../includes/Torre.h"
 
@@ -29,6 +30,11 @@ int main()
     case '2':
         exibir_instrucoes();
         break;
+
+    case '3':
+        exibir_creditos();
+        break;
+
     default:
         puts("Erro nas opções de menu!!");
         exit(0);
@@ -58,7 +64,7 @@ void exibir_instrucoes()
 O objetivo do jogo é mover os discos da torre <1> para a torre <3>.\n\
 Você não pode colocar um disco maior em cima de um menor.\n\
 Você só pode mover um disco por vez.\n\
-    \nAperte [enter] para voltar.");
+    \nAperte [ENTER] para voltar.");
     while ((getchar()) != '\n');
     main();
 }
@@ -74,7 +80,7 @@ Trabalho final apresentado à disciplina de Estrutura de Dados.\n\
 Professor: Fontes\n\
 Aluno: Gustavo C. Lacerda\n\n\
 Código fonte disponível em: https://github.com/GustavoCunhaLacerda/AsciiHanoi\n\
-    \nAperte [enter] para voltar.");
+    \nAperte [ENTER] para voltar.");
     while ((getchar()) != '\n');
     main();
 }
@@ -107,72 +113,115 @@ char menu()
 // Função que executa as mecanicas do jogo
 void game() 
 {
-    short tamTotal = 10;
+    //
+    // Declaração das variáveis gerais do jogo
+    //
+    
+    short qteTotalDeDiscos, jogadas = 0;
 
-    Disco* d1 = cria_disco(1);
-    Disco* d3 = cria_disco(3);
-    Disco* d5 = cria_disco(5);
-    Disco* d7 = cria_disco(7);
-    Disco* d9 = cria_disco(9);
-    Disco* d11 = cria_disco(11);
-    Disco* d13 = cria_disco(13);
-    Disco* d15 = cria_disco(15);
-    Disco* d17 = cria_disco(17);
-    Disco* d19 = cria_disco(19);
-
-    Torre* t1 = cria_torre();
-    Torre* t2 = cria_torre();
-    Torre* t3 = cria_torre();
-
-    // push(t1, d7);
-    push(t1, d19);
-    push(t1, d17);
-    push(t1, d15);
-    push(t1, d13);
-    push(t1, d11);
-    push(t1, d9);
-    push(t1, d7);
-    push(t1, d5);
-    push(t1, d3);
-    push(t1, d1);
-
-    Torre* torres[] = {t1, t2, t3};
-
-    while (esta_vazia(torres[0]) == 1 || esta_vazia(torres[1]) == 1) {
-        system("clear");
-        printf("Número de jogadas: 999\n");
-        // exibir_titulo();
-        renderizar_torres(tamTotal, vetor_torre(torres[0], tamTotal), vetor_torre(torres[1], tamTotal), vetor_torre(torres[2], tamTotal));
-
-        short fonte, destino;
-        printf("Mover de: ");
-        scanf("%hi", &fonte);
-        printf("Para: ");
-        scanf("%hi", &destino);
-
-        push(torres[destino-1], pop(torres[fonte-1]));
-        
+    // Scan da quantidade total de discos
+    char qteTotalDeDiscosChar = '\n';
+    while (!((int)qteTotalDeDiscosChar >= 49 && (int)qteTotalDeDiscosChar <= 57))
+    {
+        printf("Informe a quantidade de discos [1-9]: ");
+        qteTotalDeDiscosChar = getchar();
+        while ((getchar()) != '\n');
     }
-    printf("Parabéns, você conseguiu !\n\n");
-    renderizar_torres(tamTotal, vetor_torre(torres[0], tamTotal), vetor_torre(torres[1], tamTotal), vetor_torre(torres[2], tamTotal));
+    qteTotalDeDiscos = (int)qteTotalDeDiscosChar - 48;
+
+    // Declaração e criação do vetor de torres
+    Torre** torres = malloc(sizeof(Torre*) * 3);
+    for (short i = 0; i < 3; i++)
+        torres[i] = cria_torre();
+
+    // Declaração e criação dos discos
+    Disco** discos = malloc(sizeof(Disco*) * qteTotalDeDiscos);
+    for (short i = 0; i < qteTotalDeDiscos; i++)
+        discos[i] = cria_disco( (2*i) + 1 );
+    // Empilhamento dos discos na torre 1 (torres[0])
+    for (short i = qteTotalDeDiscos - 1; i >= 0; i--)
+        push(torres[0], discos[i]);
+
+    //
+    // Loop principal do game
+    //
+    while (esta_vazia(torres[0]) == 0 || esta_vazia(torres[1]) == 0) 
+    {
+        system("clear");
+        printf("Número de jogadas: %hd\n", jogadas);
+        
+        // Renderização das torres
+        renderizar_torres(qteTotalDeDiscos, vetor_torre(torres[0], qteTotalDeDiscos), vetor_torre(torres[1], qteTotalDeDiscos), vetor_torre(torres[2], qteTotalDeDiscos));
+        putchar('\n');
+
+        // Scan da torre fonte do disco
+        char fonteChar = '\0', destinoChar = '\0';
+        while (!((int)fonteChar >= 49 && (int)fonteChar <= 52))
+        {
+            printf("Mover de [1-3]: ");
+            fonteChar = getchar();
+            while ((getchar()) != '\n');
+        }
+
+        // Scan da torre destino do disco
+        while (!((int)destinoChar >= 49 && (int)destinoChar <= 52))
+        {
+            printf("Para [1-3]: ");
+            destinoChar = getchar();
+            while ((getchar()) != '\n');
+        }
+        
+        // Conversão do número das torres fonte e destino de <char> para <short>
+        short fonte = (int)fonteChar - 48, destino = (int)destinoChar - 48;
+        
+        // Verificação da jogada
+        // Verifica se a torre fonte está vazia
+        if ( !esta_vazia(torres[fonte-1]) )  
+        {
+            // Verifica se o disco será empilhado em um disco maior ou torre vazia
+            if ( (peek(torres[fonte-1]) <= peek(torres[destino-1]) || peek(torres[destino-1]) == -1) )
+            {
+                push(torres[destino-1], pop(torres[fonte-1]));
+                jogadas++;
+            }
+            else
+            {
+                printf("Movimento inválido! Não se pode colocar um disco maior em cima de um menor.\nPressione [ENTER] para fazer outra jogada.");
+                while ((getchar()) != '\n');
+            }
+        }
+        else
+        {
+            printf("Movimento inválido! Torre fonte vazia.\nPressione [ENTER] para fazer outra jogada.");
+            while ((getchar()) != '\n');
+        }
+    }
+
+    //
+    // Fim de jogo
+    //
+    system("clear");
+    printf("Parabéns, você conseguiu com %d jogadas!\n", jogadas);
+    renderizar_torres(qteTotalDeDiscos, vetor_torre(torres[0], qteTotalDeDiscos), vetor_torre(torres[1], qteTotalDeDiscos), vetor_torre(torres[2], qteTotalDeDiscos));
     
 
+    //
+    // Liberação das alocações
+    //
+    for (short i = 0; i < 3; i++)
+        libera_torre(torres[i]);
+    free(torres);
+    for (short i = 0; i < qteTotalDeDiscos; i++)
+        libera_disco(discos[i]);
+    free(discos);
 
-    libera_torre(t1);
-    libera_torre(t2);
-    libera_torre(t3);
-    libera_disco(d1);
-    libera_disco(d3);
-    libera_disco(d5);
-    libera_disco(d7);
-    libera_disco(d9);
-    libera_disco(d11);
-    libera_disco(d13);
-    libera_disco(d15);
-    libera_disco(d17);
-    libera_disco(d19);
 
-    return;
+    //
+    // 
+    //
+    printf("Pressione [ENTER] para voltar para o menu inicial.");
+    while ((getchar()) != '\n');
+    main();
 }
 
 
