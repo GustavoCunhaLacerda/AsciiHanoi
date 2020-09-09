@@ -1,19 +1,39 @@
-# Nome do Projeto
+# Nome do projeto
 NOME_PROJ=AsciiHanoi
 
 # Compilador
 CC=gcc
 
-# Arquivos .c
-C_SOURCE=$(wildcard ./src/*.c)
+# Flags para o compilador
+CC_FLAGS=-O3 -W -Wall
 
-# Arquivos .h
-H_SOURCE=$(wildcard ./src/*.h)
+# arquivos .c
+C_SOURCE=$(wildcard src/*)
+
+# arquivos .h
+H_SOURCE=$(wildcard headers/*)
+
+# arquivos objeto (.o)
+O_OBJ=$(subst .c,.o,$(subst src,build,$(C_SOURCE)))
+
 
 # Compilação
-AsciiHanoi:
-	gcc $(C_SOURCE) -o ./$(NOME_PROJ)
+build: $(NOME_PROJ)
 
-# Make clean
+$(NOME_PROJ): $(O_OBJ)
+	@ echo 'Construíndo o binário final: $@'
+	$(CC) -o $(NOME_PROJ) $(O_OBJ)
+	@ echo ' '
+	@ echo 'Compilação concluída: $@'
+	@ echo ' '
+
+build/%.o: src/%.c $(H_SOURCE)
+	@ echo 'Compilando o arquivo: $<'
+	$(CC) $(CC_FLAGS) -c $< -o $@
+	@ echo ' '
+
 clean:
-	rm -rf $(NOME_PROJ)
+	@ rm -rf $(wildcard build/*.o) $(NOME_PROJ)
+
+run:
+	@ ./$(NOME_PROJ)

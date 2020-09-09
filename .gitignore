@@ -1,3 +1,6 @@
 .vscode
 AsciiHanoi
 AsciiHanoi.exe
+
+/build/*
+!/build/.gitkeep
