@@ -15,7 +15,7 @@ void game_over();
 // Função principal de controle do jogo
 int main()
 {
-    system("clear");
+    system("clear || cls");
     switch (menu())
     {
     case '0':
@@ -35,7 +35,7 @@ int main()
         break;
 
     default:
-        puts("Erro nas opções de menu!!");
+        puts("Erro nas opcoes de menu!!");
         exit(0);
         break;
     }
@@ -43,7 +43,7 @@ int main()
     return 0;   
 }
 
-// Função que exibe o titulo/ logo do jogo
+// Função que exibe o titulo/logo do jogo
 void exibir_titulo()
 {
     // AsciiHanoi
@@ -56,13 +56,13 @@ void exibir_titulo()
 // Função que exibe a tela de instruções do jogo
 void exibir_instrucoes()
 {
-    system("clear");
+    system("clear || cls");
     exibir_titulo();
     printf("\
 ->Instruções:\n\n\
-O objetivo do jogo é mover os discos da torre <1> para a torre <3>.\n\
-Você não pode colocar um disco maior em cima de um menor.\n\
-Você só pode mover um disco por vez.\n\
+O objetivo do jogo e mover os discos da torre <1> para a torre <3>.\n\
+O jogador nao pode colocar um disco maior em cima de um menor.\n\
+O jogador so pode mover um disco por vez.\n\
     \nAperte [ENTER] para voltar.");
     while ((getchar()) != '\n');
     main();
@@ -71,14 +71,14 @@ Você só pode mover um disco por vez.\n\
 // Função que exibe a tela de creditos do jogo
 void exibir_creditos()
 {
-    system("clear");
+    system("clear || cls");
     exibir_titulo();
     printf("\
 ->Créditos:\n\n\
-Trabalho final apresentado à disciplina de Estrutura de Dados.\n\
+Trabalho final apresentado a disciplina de Estrutura de Dados.\n\
 Professor: Fontes\n\
 Aluno: Gustavo C. Lacerda\n\n\
-Código fonte disponível em: https://github.com/GustavoCunhaLacerda/AsciiHanoi\n\
+Codigo fonte disponivel em: https://github.com/GustavoCunhaLacerda/AsciiHanoi\n\
     \nAperte [ENTER] para voltar.");
     while ((getchar()) != '\n');
     main();
@@ -91,15 +91,15 @@ char menu()
 
     // Escolhas possíveis do menu - ligado ao switch case da func main()
     puts("1 - Jogar");
-    puts("2 - Instruções");
-    puts("3 - Créditos");
+    puts("2 - Instrucoes");
+    puts("3 - Creditos");
     puts("0 - Sair");
 
     // Scan da scolha do usuário
     char opcaoMenu = '\0';
     while (!((int)opcaoMenu >= 48 && (int)opcaoMenu <= 51))
     {
-        printf("\nSelecione uma opção: ");
+        printf("\nSelecione uma opcao: ");
         opcaoMenu = getchar();
         //(MEDIDA ANTI-USUÁRIO) loop para limpar buffer caso o usuário digite uma string
         while ((getchar()) != '\n');
@@ -146,8 +146,8 @@ void game()
     //
     while (esta_vazia(torres[0]) == 0 || esta_vazia(torres[1]) == 0) 
     {
-        system("clear");
-        printf("Número de jogadas: %hd\n", jogadas);
+        system("clear || cls");
+        printf("Numero de jogadas: %hd\n", jogadas);
         
         // Renderização das torres
         renderizar_torres(qteTotalDeDiscos, vetor_torre(torres[0], qteTotalDeDiscos), vetor_torre(torres[1], qteTotalDeDiscos), vetor_torre(torres[2], qteTotalDeDiscos));
@@ -187,13 +187,13 @@ void game()
             }
             else
             {
-                printf("Movimento inválido! Não se pode colocar um disco maior em cima de um menor.\nPressione [ENTER] para fazer outra jogada.");
+                printf("Movimento invalido! Nao se pode colocar um disco maior em cima de um menor.\nPressione [ENTER] para fazer outra jogada.");
                 while ((getchar()) != '\n');
             }
         }
         else
         {
-            printf("Movimento inválido! Torre fonte vazia.\nPressione [ENTER] para fazer outra jogada.");
+            printf("Movimento invalido! Torre fonte vazia.\nPressione [ENTER] para fazer outra jogada.");
             while ((getchar()) != '\n');
         }
     }
@@ -201,8 +201,8 @@ void game()
     //
     // Fim de jogo
     //
-    system("clear");
-    printf("Parabéns, você conseguiu com %d jogadas!\n", jogadas);
+    system("clear || cls");
+    printf("Parabens, voce conseguiu com %d jogadas!\n", jogadas);
     renderizar_torres(qteTotalDeDiscos, vetor_torre(torres[0], qteTotalDeDiscos), vetor_torre(torres[1], qteTotalDeDiscos), vetor_torre(torres[2], qteTotalDeDiscos));
     
 

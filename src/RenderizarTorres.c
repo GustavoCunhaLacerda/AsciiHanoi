@@ -9,7 +9,7 @@ void renderizar_linha_torre(short tamDisco, short linha, short qteTotalDeDiscos)
         putchar(' ');
     // exibindo simbolos
     for (short simbolo = 0; simbolo < tamDisco; simbolo++)
-        printf("█");
+        putchar('-');
     // exibindo espaços
     for (short espaco = 0; espaco < qteTotalDeDiscos - (1 + (tamDisco >> 1)); espaco++)
         putchar(' ');
@@ -20,10 +20,10 @@ void renderizar_linha_torre(short tamDisco, short linha, short qteTotalDeDiscos)
 // A label deve ter apenas um caractere descritivo ('1', '2' ou 'A', 'B')
 void renderizar_label(short qteTotalDeDiscos, char labelTorre) {
     for (short i = 0; i < qteTotalDeDiscos-1; i++)
-        putchar('-');
+        putchar('<');
     putchar(labelTorre);
     for (short i = 0; i < qteTotalDeDiscos-1; i++)
-        putchar('-');
+        putchar('>');
     putchar(' ');
 } 
 
