@@ -234,6 +234,32 @@ void update_game(GameStatus* gameStatus)
             gameStatus->gameOver = true;
     }
 }
+
+// Função de finalização da partida
+void end_game(GameStatus* gameStatus)
+{
+    system("clear || cls");
+    printf("Parabens, voce conseguiu com %d jogadas!\n", jogadas);
+    renderizar_torres(gameStatus->totalDiscs, vetor_torre(gameStatus->towers[0], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[1], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[2], gameStatus->totalDiscs));
+        putchar('\n');
+    
+    //
+    // Liberação das alocações
+    //
+    for (short i = 0; i < 3; i++)
+        libera_torre(gameStatus->towers[i]);
+    // free(gameStatus->towers);
+    for (short i = 0; i < gameStatus->totalDiscs; i++)
+        libera_disco(gameStatus->discs[i]);
+    free(gameStatus->discs);
+
+
+    //
+    // Retorno ao menu principal
+    //
+    printf("Pressione [ENTER] para voltar para o menu inicial.");
+    while ((getchar()) != '\n');
+}
 // Função que executa as mecanicas do jogo
 void game() 
 {
