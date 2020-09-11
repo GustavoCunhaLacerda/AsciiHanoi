@@ -5,7 +5,7 @@ NOME_PROJ=AsciiHanoi
 CC=gcc
 
 # Flags para o compilador
-CC_FLAGS=-O3 -W -Wall
+CC_FLAGS=-W -Wall
 
 # arquivos .c
 C_SOURCE=$(wildcard src/*)
@@ -37,3 +37,6 @@ clean:
 
 run:
 	@ ./$(NOME_PROJ)
+
+test:
+	@ valgrind ./$(NOME_PROJ)
