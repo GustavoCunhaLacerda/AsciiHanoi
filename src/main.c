@@ -33,34 +33,29 @@ void end_game(GameStatus* gameStatus);
 // Função principal de controle do jogo
 int main()
 {
-    Start:
+    char menuOp;
 
-    switch (menu())
-    {
-        case '1':
+    Start:
+        clean_screen();
+        menuOp = menu();
+        if(menuOp == '1')
+        {
             GameStatus* gameStatus = setup_game();
             update_game(gameStatus);
             end_game(gameStatus);
-        break;
-        
-        case '2':
+        }
+        else if (menuOp == '2')
+        {
             instructions();
-        break;
-
-        case '3':
+        }
+        else if (menuOp == '3')
+        {
             credits();
-        break;
-
-        case '0':
-            exit(EXIT_SUCCESS);
-        break;
-
-        default:
-            puts("Erro nas opcoes de menu!!");
-            exit(EXIT_FAILURE);
-        break;
-    }
-    
+        }
+        else
+        {
+            return 0;
+        }
     goto Start;   
 }
 
@@ -111,8 +106,9 @@ char menu()
 }
 
 // Função que exibe a tela de instruções do jogo
-void exibir_instrucoes()
+void instructions()
 {
+    clean_screen();
     exibir_titulo();
     printf("\
 ->Instruções:\n\n\
@@ -121,7 +117,6 @@ O jogador nao pode colocar um disco maior em cima de um menor.\n\
 O jogador so pode mover um disco por vez.\n\
     \nAperte [ENTER] para voltar.");
     while ((getchar()) != '\n');
-    main();
 }
 
 // Função que exibe a tela de creditos do jogo
@@ -137,7 +132,6 @@ Aluno: Gustavo C. Lacerda\n\n\
 Codigo fonte disponivel em: https://github.com/GustavoCunhaLacerda/AsciiHanoi\n\
     \nAperte [ENTER] para voltar.");
     while ((getchar()) != '\n');
-    main();
 }
 
 //Função que realiza o setup inicial do game
@@ -230,7 +224,7 @@ void update_game(GameStatus* gameStatus)
             clean_buffer();
         }
 
-        if (esta_vazia(torres[0]) && esta_vazia(torres[1]))
+        if (esta_vazia(gameStatus->towers[0]) && esta_vazia(gameStatus->towers[1]))
             gameStatus->gameOver = true;
     }
 }
@@ -239,7 +233,7 @@ void update_game(GameStatus* gameStatus)
 void end_game(GameStatus* gameStatus)
 {
     system("clear || cls");
-    printf("Parabens, voce conseguiu com %d jogadas!\n", jogadas);
+    printf("Parabens, voce conseguiu com %d jogadas!\n", gameStatus->movesCount);
     renderizar_torres(gameStatus->totalDiscs, vetor_torre(gameStatus->towers[0], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[1], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[2], gameStatus->totalDiscs));
         putchar('\n');
     
@@ -248,11 +242,10 @@ void end_game(GameStatus* gameStatus)
     //
     for (short i = 0; i < 3; i++)
         libera_torre(gameStatus->towers[i]);
-    // free(gameStatus->towers);
     for (short i = 0; i < gameStatus->totalDiscs; i++)
         libera_disco(gameStatus->discs[i]);
     free(gameStatus->discs);
-
+    free(gameStatus);
 
     //
     // Retorno ao menu principal
