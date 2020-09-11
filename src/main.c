@@ -20,7 +20,7 @@ typedef struct gameStatusStruct
 // Prototipos
 void clean_screen();
 void clean_buffer();
-void titulo();
+void title();
 
 char menu();
 void instructions();
@@ -72,7 +72,7 @@ void clean_screen()
 }
 
 // Função que exibe o titulo/logo do jogo
-void exibir_titulo()
+void title()
 {
     // AsciiHanoi
     puts("\n\
@@ -84,7 +84,7 @@ void exibir_titulo()
 // Exibição de opções e retorno da seleção do menu
 char menu()
 {
-    exibir_titulo();
+    title();
 
     // Escolhas possíveis do menu - ligado ao switch case da func main()
     puts("1 - Jogar");
@@ -109,7 +109,7 @@ char menu()
 void instructions()
 {
     clean_screen();
-    exibir_titulo();
+    title();
     printf("\
 ->Instruções:\n\n\
 O objetivo do jogo e mover os discos da torre <1> para a torre <3>.\n\
@@ -123,7 +123,7 @@ O jogador so pode mover um disco por vez.\n\
 void credits()
 {
     clean_screen();
-    exibir_titulo();
+    title();
     printf("\
 ->Créditos:\n\n\
 Trabalho final apresentado a disciplina de Estrutura de Dados.\n\
