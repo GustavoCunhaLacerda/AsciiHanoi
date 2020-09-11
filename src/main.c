@@ -4,43 +4,66 @@
 #include "../includes/RenderizarTorres.h"
 #include "../includes/Torre.h"
 
-void exibir_titulo();
-void exibir_instrucoes();
-void exibir_creditos();
+typedef enum bool { true = 1, false = 0 } Bool;
+
+typedef struct gameStatus
+{
+    Torre* towers[3];
+    int movesCount;
+    Bool gameOver;
+
+} GameStatus;
+
+
+// Prototipos
+void titulo();
+void clean_screen();
 
 char menu();
-void game();
-void game_over();
+void instructions();
+void credits();
+
+GameStatus* setup_game();
+void update_game();
+void end_game();
 
 // Função principal de controle do jogo
 int main()
 {
-    system("clear || cls");
+    Start:
     switch (menu())
     {
-    case '0':
-        exit(0);
+        case '1':
+            GameStatus* gameStatus = setup_game();
+            update_game(gameStatus);
+            end_game(gameStatus);
         break;
-    
-    case '1':
-        game();
-        break;
-    
-    case '2':
-        exibir_instrucoes();
+        
+        case '2':
+            instructions();
         break;
 
-    case '3':
-        exibir_creditos();
+        case '3':
+            credits();
         break;
 
-    default:
-        puts("Erro nas opcoes de menu!!");
-        exit(0);
+        case '0':
+            exit(EXIT_SUCCESS);
+        break;
+
+        default:
+            puts("Erro nas opcoes de menu!!");
+            exit(EXIT_FAILURE);
         break;
     }
+    
+    goto Start;   
+}
 
-    return 0;   
+// Função que limpa a tela
+void clean_screen() 
+{
+    system("clear || cls");
 }
 
 // Função que exibe o titulo/logo do jogo
@@ -56,7 +79,6 @@ void exibir_titulo()
 // Função que exibe a tela de instruções do jogo
 void exibir_instrucoes()
 {
-    system("clear || cls");
     exibir_titulo();
     printf("\
 ->Instruções:\n\n\
@@ -69,9 +91,9 @@ O jogador so pode mover um disco por vez.\n\
 }
 
 // Função que exibe a tela de creditos do jogo
-void exibir_creditos()
+void credits()
 {
-    system("clear || cls");
+    clean_screen();
     exibir_titulo();
     printf("\
 ->Créditos:\n\n\
@@ -170,7 +192,8 @@ void game()
             while ((getchar()) != '\n');
         }
 
-        fflush(stdin);
+        // fflush(stdin);
+        
         
         // Conversão do número das torres fonte e destino de <char> para <short>
         short fonte = (int)fonteChar - 48, destino = (int)destinoChar - 48;
