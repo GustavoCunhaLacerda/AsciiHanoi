@@ -6,31 +6,35 @@
 
 typedef enum bool { true = 1, false = 0 } Bool;
 
-typedef struct gameStatus
+typedef struct gameStatusStruct
 {
     Torre* towers[3];
-    int movesCount;
+    Disco** discs;
+    short totalDiscs;
+    short movesCount;
     Bool gameOver;
 
 } GameStatus;
 
 
 // Prototipos
-void titulo();
 void clean_screen();
+void clean_buffer();
+void titulo();
 
 char menu();
 void instructions();
 void credits();
 
 GameStatus* setup_game();
-void update_game();
-void end_game();
+void update_game(GameStatus* gameStatus);
+void end_game(GameStatus* gameStatus);
 
 // Função principal de controle do jogo
 int main()
 {
     Start:
+
     switch (menu())
     {
         case '1':
@@ -60,6 +64,12 @@ int main()
     goto Start;   
 }
 
+// Função que limpa o buffer do teclado
+void clean_buffer()
+{
+    while ((getchar()) != '\n');
+}
+
 // Função que limpa a tela
 void clean_screen() 
 {
@@ -74,6 +84,30 @@ void exibir_titulo()
  /\\   _  _ o o |_|  _. ._   _  o\n\
 /--\\ _> (_ | | | | (_| | | (_) |\n\
     ");
+}
+
+// Exibição de opções e retorno da seleção do menu
+char menu()
+{
+    exibir_titulo();
+
+    // Escolhas possíveis do menu - ligado ao switch case da func main()
+    puts("1 - Jogar");
+    puts("2 - Instrucoes");
+    puts("3 - Creditos");
+    puts("0 - Sair");
+
+    // Scan da scolha do usuário
+    char opcaoMenu = '\0';
+    while (!((int)opcaoMenu >= 48 && (int)opcaoMenu <= 51))
+    {
+        printf("\nSelecione uma opcao: ");
+        opcaoMenu = getchar();
+        clean_buffer();
+    }
+
+    // putchar(opcaoMenu);
+    return opcaoMenu;
 }
 
 // Função que exibe a tela de instruções do jogo
@@ -106,29 +140,40 @@ Codigo fonte disponivel em: https://github.com/GustavoCunhaLacerda/AsciiHanoi\n\
     main();
 }
 
-// Exibição de opções e retorno da seleção do menu
-char menu()
-{
-    exibir_titulo();
+//Função que realiza o setup inicial do game
+GameStatus* setup_game() {
+    GameStatus* gameStatus = malloc(sizeof(GameStatus));
 
-    // Escolhas possíveis do menu - ligado ao switch case da func main()
-    puts("1 - Jogar");
-    puts("2 - Instrucoes");
-    puts("3 - Creditos");
-    puts("0 - Sair");
-
-    // Scan da scolha do usuário
-    char opcaoMenu = '\0';
-    while (!((int)opcaoMenu >= 48 && (int)opcaoMenu <= 51))
+    // Scan da quantidade total de discos
+    char totalDiscsChar = '\n';
+    while (!((int)totalDiscsChar >= 49 && (int)totalDiscsChar <= 57))
     {
-        printf("\nSelecione uma opcao: ");
-        opcaoMenu = getchar();
-        //(MEDIDA ANTI-USUÁRIO) loop para limpar buffer caso o usuário digite uma string
-        while ((getchar()) != '\n');
+        printf("Informe a quantidade de discos [1-9]: ");
+        totalDiscsChar = getchar();
+        clean_buffer();
     }
+    
+    // Declaração das variáveis gerais do jogo
+    gameStatus->movesCount = 0;
+    gameStatus->gameOver = false;
+    gameStatus->totalDiscs = (int)totalDiscsChar - 48;
 
-    // putchar(opcaoMenu);
-    return opcaoMenu;
+    // Criação do vetor de torres
+    // Torre** torres = malloc(sizeof(Torre*) * 3);
+    for (short i = 0; i < 3; i++)
+        gameStatus->towers[i] = cria_torre();
+
+    // Declaração e criação dos discos
+    gameStatus->discs = malloc(sizeof(Disco*) * gameStatus->totalDiscs);
+    for (short i = 0; i < gameStatus->totalDiscs; i++)
+        gameStatus->discs[i] = cria_disco( (2*i) + 1 );
+
+    // Empilhamento dos discos na torre 1 (torres[0])
+    for (short i = gameStatus->totalDiscs - 1; i >= 0; i--)
+        push(gameStatus->towers[0], gameStatus->discs[i]);
+
+
+    return gameStatus;
 }
 
 // Função que executa as mecanicas do jogo
