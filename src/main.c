@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../includes/RenderizarTorres.h"
-#include "../includes/Torre.h"
+#include "../includes/ShowTowers.h"
+#include "../includes/TowerAndDisc.h"
 
 typedef enum bool { true = 1, false = 0 } Bool;
 
 typedef struct gameStatusStruct
 {
-    Torre* towers[3];
-    Disco** discs;
+    Tower** towers;
+    Disc** discs;
     short totalDiscs;
     short movesCount;
     Bool gameOver;
@@ -93,16 +93,16 @@ char menu()
     puts("0 - Sair");
 
     // Scan da scolha do usuário
-    char opcaoMenu = '\0';
-    while (!((int)opcaoMenu >= 48 && (int)opcaoMenu <= 51))
+    char menuOption = '\0';
+    while (!((int)menuOption >= 48 && (int)menuOption <= 51))
     {
         printf("\nSelecione uma opcao: ");
-        opcaoMenu = getchar();
+        menuOption = getchar();
         clean_buffer();
     }
 
-    // putchar(opcaoMenu);
-    return opcaoMenu;
+    // putchar(menuOption);
+    return menuOption;
 }
 
 // Função que exibe a tela de instruções do jogo
@@ -116,7 +116,7 @@ O objetivo do jogo e mover os discos da torre <1> para a torre <3>.\n\
 O jogador nao pode colocar um disco maior em cima de um menor.\n\
 O jogador so pode mover um disco por vez.\n\
     \nAperte [ENTER] para voltar.");
-    while ((getchar()) != '\n');
+    clean_buffer();
 }
 
 // Função que exibe a tela de creditos do jogo
@@ -129,9 +129,9 @@ void credits()
 Trabalho final apresentado a disciplina de Estrutura de Dados.\n\
 Professor: Fontes\n\
 Aluno: Gustavo C. Lacerda\n\n\
-Codigo fonte disponivel em: https://github.com/GustavoCunhaLacerda/AsciiHanoi\n\
+Codigo font disponivel em: https://github.com/GustavoCunhaLacerda/AsciiHanoi\n\
     \nAperte [ENTER] para voltar.");
-    while ((getchar()) != '\n');
+    clean_buffer();
 }
 
 //Função que realiza o setup inicial do game
@@ -153,14 +153,14 @@ GameStatus* setup_game() {
     gameStatus->totalDiscs = (int)totalDiscsChar - 48;
 
     // Criação do vetor de torres
-    // Torre** torres = malloc(sizeof(Torre*) * 3);
+    gameStatus->towers = malloc(sizeof(Tower*) * 3);
     for (short i = 0; i < 3; i++)
-        gameStatus->towers[i] = cria_torre();
+        gameStatus->towers[i] = create_tower();
 
     // Declaração e criação dos discos
-    gameStatus->discs = malloc(sizeof(Disco*) * gameStatus->totalDiscs);
+    gameStatus->discs = malloc(sizeof(Disc*) * gameStatus->totalDiscs);
     for (short i = 0; i < gameStatus->totalDiscs; i++)
-        gameStatus->discs[i] = cria_disco( (2*i) + 1 );
+        gameStatus->discs[i] = create_disc( (2*i) + 1 );
 
     // Empilhamento dos discos na torre 1 (torres[0])
     for (short i = gameStatus->totalDiscs - 1; i >= 0; i--)
@@ -179,37 +179,37 @@ void update_game(GameStatus* gameStatus)
         printf("Numero de jogadas: %hd\n", gameStatus->movesCount);
         
         // Renderização das torres
-        renderizar_torres(gameStatus->totalDiscs, vetor_torre(gameStatus->towers[0], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[1], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[2], gameStatus->totalDiscs));
+        show_tower(gameStatus->totalDiscs, formatted_tower_vector(gameStatus->towers[0], gameStatus->totalDiscs), formatted_tower_vector(gameStatus->towers[1], gameStatus->totalDiscs), formatted_tower_vector(gameStatus->towers[2], gameStatus->totalDiscs));
         putchar('\n');
 
-        // Scan da torre fonte do disco
-        char fonteChar = '\0', destinoChar = '\0';
-        while (!((int)fonteChar >= 49 && (int)fonteChar <= 51))
+        // Scan da torre font do disco
+        char fontChar = '\0', targetChar = '\0';
+        while (!((int)fontChar >= 49 && (int)fontChar <= 51))
         {
             printf("Mover de [1-3]: ");
-            fonteChar = getchar();
+            fontChar = getchar();
             clean_buffer();
         }
 
-        // Scan da torre destino do disco
-        while (!((int)destinoChar >= 49 && (int)destinoChar <= 51))
+        // Scan da torre destiny do disco
+        while (!((int)targetChar >= 49 && (int)targetChar <= 51))
         {
             printf("Para [1-3]: ");
-            destinoChar = getchar();
+            targetChar = getchar();
             clean_buffer();
         }
 
-        // Conversão do número das torres fonte e destino de <char> para <short>
-        short fonte = (int)fonteChar - 48, destino = (int)destinoChar - 48;
+        // Conversão do número das torres font e destiny de <char> para <short>
+        short font = (int)fontChar - 48, destiny = (int)targetChar - 48;
         
         // Verificação da jogada
-        // Verifica se a torre fonte está vazia
-        if ( !esta_vazia(gameStatus->towers[fonte-1]) )  
+        // Verifica se a torre font está vazia
+        if ( !is_empty(gameStatus->towers[font-1]) )  
         {
             // Verifica se o disco será empilhado em um disco maior ou torre vazia
-            if ( (peek(gameStatus->towers[fonte-1]) <= peek(gameStatus->towers[destino-1]) || peek(gameStatus->towers[destino-1]) == -1) )
+            if ( (peek(gameStatus->towers[font-1]) <= peek(gameStatus->towers[destiny-1]) || peek(gameStatus->towers[destiny-1]) == -1) )
             {
-                push(gameStatus->towers[destino-1], pop(gameStatus->towers[fonte-1]));
+                push(gameStatus->towers[destiny-1], pop(gameStatus->towers[font-1]));
                 gameStatus->movesCount++;
             }
             else
@@ -220,11 +220,11 @@ void update_game(GameStatus* gameStatus)
         }
         else
         {
-            printf("Movimento invalido! Torre fonte vazia.\nPressione [ENTER] para fazer outra jogada.");
+            printf("Movimento invalido! Tower font vazia.\nPressione [ENTER] para fazer outra jogada.");
             clean_buffer();
         }
 
-        if (esta_vazia(gameStatus->towers[0]) && esta_vazia(gameStatus->towers[1]))
+        if (is_empty(gameStatus->towers[0]) && is_empty(gameStatus->towers[1]))
             gameStatus->gameOver = true;
     }
 }
@@ -234,16 +234,17 @@ void end_game(GameStatus* gameStatus)
 {
     system("clear || cls");
     printf("Parabens, voce conseguiu com %d jogadas!\n", gameStatus->movesCount);
-    renderizar_torres(gameStatus->totalDiscs, vetor_torre(gameStatus->towers[0], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[1], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[2], gameStatus->totalDiscs));
+    show_tower(gameStatus->totalDiscs, formatted_tower_vector(gameStatus->towers[0], gameStatus->totalDiscs), formatted_tower_vector(gameStatus->towers[1], gameStatus->totalDiscs), formatted_tower_vector(gameStatus->towers[2], gameStatus->totalDiscs));
         putchar('\n');
     
     //
     // Liberação das alocações
     //
     for (short i = 0; i < 3; i++)
-        libera_torre(gameStatus->towers[i]);
+        free_tower(gameStatus->towers[i]);
+    free(gameStatus->towers);
     for (short i = 0; i < gameStatus->totalDiscs; i++)
-        libera_disco(gameStatus->discs[i]);
+        free_disc(gameStatus->discs[i]);
     free(gameStatus->discs);
     free(gameStatus);
 
