@@ -176,6 +176,64 @@ GameStatus* setup_game() {
     return gameStatus;
 }
 
+// Função que controla as atualizações e mecânicas do jogo
+void update_game(GameStatus* gameStatus)
+{
+    while (!gameStatus->gameOver) 
+    {
+        clean_screen();
+        printf("Numero de jogadas: %hd\n", gameStatus->movesCount);
+        
+        // Renderização das torres
+        renderizar_torres(gameStatus->totalDiscs, vetor_torre(gameStatus->towers[0], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[1], gameStatus->totalDiscs), vetor_torre(gameStatus->towers[2], gameStatus->totalDiscs));
+        putchar('\n');
+
+        // Scan da torre fonte do disco
+        char fonteChar = '\0', destinoChar = '\0';
+        while (!((int)fonteChar >= 49 && (int)fonteChar <= 51))
+        {
+            printf("Mover de [1-3]: ");
+            fonteChar = getchar();
+            clean_buffer();
+        }
+
+        // Scan da torre destino do disco
+        while (!((int)destinoChar >= 49 && (int)destinoChar <= 51))
+        {
+            printf("Para [1-3]: ");
+            destinoChar = getchar();
+            clean_buffer();
+        }
+
+        // Conversão do número das torres fonte e destino de <char> para <short>
+        short fonte = (int)fonteChar - 48, destino = (int)destinoChar - 48;
+        
+        // Verificação da jogada
+        // Verifica se a torre fonte está vazia
+        if ( !esta_vazia(gameStatus->towers[fonte-1]) )  
+        {
+            // Verifica se o disco será empilhado em um disco maior ou torre vazia
+            if ( (peek(gameStatus->towers[fonte-1]) <= peek(gameStatus->towers[destino-1]) || peek(gameStatus->towers[destino-1]) == -1) )
+            {
+                push(gameStatus->towers[destino-1], pop(gameStatus->towers[fonte-1]));
+                gameStatus->movesCount++;
+            }
+            else
+            {
+                printf("Movimento invalido! Nao se pode colocar um disco maior em cima de um menor.\nPressione [ENTER] para fazer outra jogada.");
+                clean_buffer();
+            }
+        }
+        else
+        {
+            printf("Movimento invalido! Torre fonte vazia.\nPressione [ENTER] para fazer outra jogada.");
+            clean_buffer();
+        }
+
+        if (esta_vazia(torres[0]) && esta_vazia(torres[1]))
+            gameStatus->gameOver = true;
+    }
+}
 // Função que executa as mecanicas do jogo
 void game() 
 {
