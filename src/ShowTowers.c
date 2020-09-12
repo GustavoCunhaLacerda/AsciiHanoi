@@ -5,9 +5,9 @@
 // Função que printa determinada line da torre
 /**
  * Função que printa determinada linha de uma torre.
- * @param discSize tamanho do disco da linha.
- * @param line numero da linha.
- * @param totalDiscs numero total de discos em jogo.
+ * @param discSize Tamanho do disco da linha.
+ * @param line Numero da linha.
+ * @param totalDiscs Numero total de discos em jogo.
  */
 void show_tower_line(short discSize, short line, short totalDiscs) {
     // exibindo espaços
