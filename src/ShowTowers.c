@@ -25,10 +25,15 @@ void show_tower_line(short discSize, short line, short totalDiscs) {
 
 // Função que printa a label da torre de acrdo com o tamanho total
 // A label deve ter apenas um caractere descritivo ('1', '2' ou 'A', 'B')
-void show_tower_label(short totalDiscs, char labelTorre) {
+/**
+ * Função que printa a label da torre de acordo com o tamanho de discos total.
+ * @param totalDiscs Numero total de discos em jogo.
+ * @param towerLabel Caractere que define a label da torre. Deve ter apenas um caractere descritivo ('1', '2', 'A', 'B', ...).
+ */
+void show_tower_label(short totalDiscs, char towerLabel) {
     for (short i = 0; i < totalDiscs-1; i++)
         putchar('<');
-    putchar(labelTorre);
+    putchar(towerLabel);
     for (short i = 0; i < totalDiscs-1; i++)
         putchar('>');
     putchar(' ');
