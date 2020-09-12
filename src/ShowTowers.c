@@ -3,6 +3,12 @@
 #include "../includes/ShowTowers.h"
 
 // Função que printa determinada line da torre
+/**
+ * Função que printa determinada linha de uma torre.
+ * @param discSize tamanho do disco da linha.
+ * @param line numero da linha.
+ * @param totalDiscs numero total de discos em jogo.
+ */
 void show_tower_line(short discSize, short line, short totalDiscs) {
     // exibindo espaços
     if (discSize == 0) putchar(' ');
