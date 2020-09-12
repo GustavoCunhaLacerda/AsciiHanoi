@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "../includes/ShowTowers.h"
 
-// Função que printa determinada line da torre
 /**
  * Função que printa determinada linha de uma torre.
  * @param discSize Tamanho do disco da linha.
@@ -23,8 +22,6 @@ void show_tower_line(short discSize, short line, short totalDiscs) {
     putchar(' ');
 }
 
-// Função que printa a label da torre de acrdo com o tamanho total
-// A label deve ter apenas um caractere descritivo ('1', '2' ou 'A', 'B')
 /**
  * Função que printa a label da torre de acordo com o tamanho de discos total.
  * @param totalDiscs Numero total de discos em jogo.
