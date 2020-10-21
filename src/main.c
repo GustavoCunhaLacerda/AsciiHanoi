@@ -6,13 +6,18 @@
 
 typedef enum bool { true = 1, false = 0 } Bool;
 
+/** 
+ * Estrutura para armazenar os dados do jogo/partida
+ */
 typedef struct gameStatusStruct
 {
-    Tower** towers;
-    Disc** discs;
-    short totalDiscs;
-    short movesCount;
-    Bool gameOver;
+    /*@{*/
+    Tower** towers; /**< Torres da partida */
+    Disc** discs; /**< Discos da partida */
+    short totalDiscs; /**< Número total de discos na partida  */
+    short movesCount; /**< Quantidade de jogadas realizadas na partida */
+    Bool gameOver; /**< Verificação de game over */
+    /*@}*/
 
 } GameStatus;
 
@@ -30,7 +35,6 @@ GameStatus* setup_game();
 void update_game(GameStatus* gameStatus);
 void end_game(GameStatus* gameStatus);
 
-// Função principal de controle do jogo
 int main()
 {
     char menuOp;
@@ -220,7 +224,7 @@ void update_game(GameStatus* gameStatus)
         }
         else
         {
-            printf("Movimento invalido! Tower font vazia.\nPressione [ENTER] para fazer outra jogada.");
+            printf("Movimento invalido! Torre fonte vazia.\nPressione [ENTER] para fazer outra jogada.");
             clean_buffer();
         }
 
